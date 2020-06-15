@@ -9,13 +9,11 @@ import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 
 @Component
 export default class MarkdownRenderer extends Vue {
-  public displayMarkdown!: string;
+  public displayMarkdown: string = '';
 
-  @Prop() private value!: string;
+  @Prop() public value!: string;
 
-
-
-  @Watch('value', { immediate: true, deep: true })
+  @Watch('value', { immediate: true})
   public onMarkdownChange(newMarkdown: string) {
     this.convertToHtml(newMarkdown);
   }

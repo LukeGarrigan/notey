@@ -1,5 +1,5 @@
 <template>
-  <div contenteditable="true" class="markdown-editor" @keydown="textUpdated">
+  <div contenteditable="true" class="markdown-editor" @keyup="textUpdated">
 
   </div>
 </template>
