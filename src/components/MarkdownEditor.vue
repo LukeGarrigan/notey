@@ -11,7 +11,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class MarkdownEditor extends Vue {
 
   public textUpdated(event: any) {
-    this.$emit('markdown-updated', event.target.innerText);
+    this.$emit('markdown-updated', event.target.innerHTML);
   }
 
 }

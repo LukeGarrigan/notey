@@ -1,5 +1,5 @@
 <template>
-  <div class="markdown-renderer">
+  <div class="markdown-renderer" v-html="convertToHtml()">
     {{displayMarkdown}}
   </div>
 </template>
@@ -15,12 +15,14 @@ export default class MarkdownRenderer extends Vue {
 
   @Watch('value', { immediate: true})
   public onMarkdownChange(newMarkdown: string) {
-    this.convertToHtml(newMarkdown);
+    this.displayMarkdown = newMarkdown;
   }
 
-  private convertToHtml(markdown: string) {
-    // todo
-    this.displayMarkdown = markdown;
+  public convertToHtml() {
+    if (this.displayMarkdown.includes('#')) {
+      return `<h1> ${this.displayMarkdown} </h1>`;
+    }
+    return this.displayMarkdown;
   }
 }
 </script>
