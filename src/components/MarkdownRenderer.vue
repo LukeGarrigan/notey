@@ -6,12 +6,17 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
+import showdown from 'showdown';
 
 @Component
 export default class MarkdownRenderer extends Vue {
   public displayMarkdown: string = '';
-
+  public converter: any = {};
   @Prop() public value!: string;
+
+  public created() {
+    this.converter = new showdown.Converter();
+  }
 
   @Watch('value', { immediate: true})
   public onMarkdownChange(newMarkdown: string) {
@@ -19,10 +24,7 @@ export default class MarkdownRenderer extends Vue {
   }
 
   public convertToHtml() {
-    if (this.displayMarkdown.includes('#')) {
-      return `<h1> ${this.displayMarkdown} </h1>`;
-    }
-    return this.displayMarkdown;
+    return this.converter.makeHtml(this.displayMarkdown);
   }
 }
 </script>
@@ -35,7 +37,7 @@ export default class MarkdownRenderer extends Vue {
     width: 45%;
     border: #2c3e50 solid 2px;
     padding: 25px;
-    font-size: 3em;
+    font-size: 1.5em;
     height: 100%;
     text-align: left;
   }

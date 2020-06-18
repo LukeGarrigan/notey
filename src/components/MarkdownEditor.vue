@@ -11,7 +11,7 @@ import { Component, Prop, Vue } from 'vue-property-decorator';
 export default class MarkdownEditor extends Vue {
 
   public textUpdated(event: any) {
-    this.$emit('markdown-updated', event.target.innerHTML);
+    this.$emit('markdown-updated', event.target.innerText);
   }
 
 }
@@ -25,7 +25,7 @@ export default class MarkdownEditor extends Vue {
     height: 100%;
     width:45%;
     border: #2c3e50 solid 2px;
-    font-size:3em;
+    font-size:1.5em;
     text-align: left;
     padding: 25px;
   }
