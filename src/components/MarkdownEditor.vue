@@ -27,7 +27,7 @@ export default class MarkdownEditor extends Vue {
     border-left: #d7d7d7 solid 2px;
     border-top: #d7d7d7 solid 2px;
     border-bottom: #d7d7d7 solid 2px;
-    font-size:1.5em;
+    font-size:1.5rem;
     text-align: left;
     color:grey;
     font-family: Consolas;

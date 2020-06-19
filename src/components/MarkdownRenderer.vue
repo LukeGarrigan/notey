@@ -15,7 +15,12 @@ export default class MarkdownRenderer extends Vue {
   @Prop() public value!: string;
 
   public created() {
-    this.converter = new showdown.Converter();
+    this.converter = new showdown.Converter({
+      strikethrough: true,
+      literalMidWordUnderscores: true,
+      smoothLivePreview: true,
+      headerLevelStart: 2,
+    });
   }
 
   @Watch('value', { immediate: true})
@@ -35,13 +40,14 @@ export default class MarkdownRenderer extends Vue {
   .markdown-renderer {
     width: 35%;
     border: #d7d7d7 solid 2px;
-    font-size: 1.5em;
+    font-size: 1.5rem;
     height: 100%;
     text-align: left;
     background-color: #ffffff;
     padding: 40px;
     overflow: auto;
-  }
 
+
+  }
 
 </style>

@@ -19,6 +19,16 @@ export default class App extends Vue {}
 <style lang="scss">
   body {
     background-color: #e2e2e2;
+
+
+    h2 {
+        border-bottom: 1px solid #ddd;
+    }
+
+    h1, h2, h3, h4 {
+      line-height: 1.4;
+    }
+
   }
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
