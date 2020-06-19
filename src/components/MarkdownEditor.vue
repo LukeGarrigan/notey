@@ -23,11 +23,17 @@ export default class MarkdownEditor extends Vue {
   .markdown-editor {
     position:relative;
     height: 100%;
-    width:45%;
-    border: #2c3e50 solid 2px;
+    width:35%;
+    border-left: #d7d7d7 solid 2px;
+    border-top: #d7d7d7 solid 2px;
+    border-bottom: #d7d7d7 solid 2px;
     font-size:1.5em;
     text-align: left;
-    padding: 25px;
+    color:grey;
+    font-family: Consolas;
+    padding: 40px;
+    background-color: #fbfbfb;
+    overflow: auto;
   }
 
 </style>

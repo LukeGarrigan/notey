@@ -35,5 +35,7 @@ export default class Markdown extends Vue {
     width: 100%;
     height:1000px;
     display:flex;
+    justify-content: center;
   }
+
 </style>
