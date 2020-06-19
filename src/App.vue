@@ -1,16 +1,19 @@
 <template>
   <div id="app">
-    <Markdown></Markdown>
+    <Notes></Notes>
+    <router-view></router-view>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 import Markdown from '@/components/Markdown.vue';
+import Notes from '@/components/Notes.vue';
 
 @Component({
   components: {
     Markdown,
+    Notes,
   },
 })
 export default class App extends Vue {}
@@ -37,5 +40,6 @@ export default class App extends Vue {}
     text-align: center;
     color: #2c3e50;
     margin-top: 60px;
+    display:flex;
   }
 </style>
