@@ -2,7 +2,7 @@
 
   <div class="left-panel">
 
-    <div v-for="note in getNotes()" class="note" @click="chooseNote(note)">
+    <div v-for="note in getNotes()" class="note-preview" @click="chooseNote(note)">
       {{note.title}}
     </div>
 
@@ -40,15 +40,20 @@ export default class Notes extends Vue {
 
 
   .left-panel {
-
     width:20%;
     height:1080px;
   }
 
-  .note {
+  .note-preview {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    
     height:150px;
     border-left: #d7d7d7 solid 2px;
     border-bottom: #d7d7d7 solid 2px;
+    font-size:1.5em;
+
 
     &:hover {
       border: #8bc6d7 solid 2px;
