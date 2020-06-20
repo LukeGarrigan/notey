@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import VueRouter, {RouteConfig} from 'vue-router';
-import Markdown from '@/components/Markdown.vue';
+import MarkdownView from '@/components/MarkdownView.vue';
 
 Vue.use(VueRouter);
 
@@ -8,7 +8,7 @@ const routes: RouteConfig[] = [
     {
         path: '/note/:noteId',
         name: 'note-page',
-        component: Markdown,
+        component: MarkdownView,
         props: true,
     }
 

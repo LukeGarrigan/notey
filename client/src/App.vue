@@ -7,7 +7,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import Markdown from '@/components/Markdown.vue';
+import Markdown from '@/components/MarkdownView.vue';
 import Notes from '@/components/Notes.vue';
 
 @Component({

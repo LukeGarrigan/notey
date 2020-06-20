@@ -18,7 +18,7 @@ import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
     MarkdownRenderer,
   },
 })
-export default class Markdown extends Vue {
+export default class MarkdownView extends Vue {
 
   @Prop() public noteId: string = '';
   public loadedMarkdown: string = '';
