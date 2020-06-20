@@ -1,14 +1,23 @@
 <template>
-  <div contenteditable="true" class="markdown-editor" @keyup="textUpdated">
+  <div contenteditable="true" class="markdown-editor" @keyup="textUpdated" v-html="actualMarkdown">
 
   </div>
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue } from 'vue-property-decorator';
+import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 
 @Component
 export default class MarkdownEditor extends Vue {
+
+  @Prop() public value!: string;
+  public actualMarkdown: string = '';
+
+
+  @Watch('value', { immediate: true})
+  public onMarkdownChange(newMarkdown: string) {
+    this.actualMarkdown = newMarkdown;
+  }
 
   public textUpdated(event: any) {
     this.$emit('markdown-updated', event.target.innerText);

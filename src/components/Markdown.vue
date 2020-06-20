@@ -1,11 +1,8 @@
 <template>
 
   <div class="markdown-view">
-    <MarkdownEditor @markdown-updated="markdownUpdated"></MarkdownEditor>
+    <MarkdownEditor :value="loadedMarkdown" @markdown-updated="markdownUpdated"></MarkdownEditor>
     <MarkdownRenderer :value="markdown"></MarkdownRenderer>
-
-
-
   </div>
 
 </template>
@@ -24,20 +21,24 @@ import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 export default class Markdown extends Vue {
 
   @Prop() public noteId: string = '';
+  public loadedMarkdown: string = '';
   public markdown: string = '';
   public note: any = {};
 
   @Watch('noteId', {immediate: true})
-  public onIdChanged(newNoteId: string) {
+  public async onIdChanged(newNoteId: string) {
     this.noteId = newNoteId;
-    this.markdown = this.loadMarkdown();
+
+    const md = await this.loadMarkdown();
+    this.markdown = md;
+    this.loadedMarkdown = md;
   }
 
   public markdownUpdated(updatedMarkdown: string) {
     this.markdown = updatedMarkdown;
   }
 
-  private loadMarkdown() {
+  private async loadMarkdown() {
     // bit of a dummy loadout for testing purposes
     const note = this.$store.getters.noteById(this.noteId);
 

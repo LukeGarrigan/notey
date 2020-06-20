@@ -1,6 +1,6 @@
 <template>
   <div class="markdown-renderer" v-html="convertToHtml()">
-    {{displayMarkdown}}
+
   </div>
 </template>
 
