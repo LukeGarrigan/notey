@@ -32,6 +32,15 @@ export default class App extends Vue {}
       line-height: 1.4;
     }
 
+
+    pre {
+      white-space: pre-wrap;
+      background-color: #f8f8f8;
+      border: 1px solid #dfdfdf;
+      margin-top: 1.5em;
+      margin-bottom: 1.5em;
+      padding: 0.4em 0.5em 0.4em;
+    }
   }
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;
