@@ -12,6 +12,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import {noteService} from '@/service/noteService';
 
 @Component({
   components: {
@@ -22,6 +23,9 @@ export default class Notes extends Vue {
 
 
   public getNotes() {
+
+    // await noteService.getNotes();
+
     return this.$store.getters.notes;
   }
 
