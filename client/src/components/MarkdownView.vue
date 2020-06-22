@@ -11,6 +11,7 @@
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 import MarkdownEditor from '@/components/MarkdownEditor.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
+import {Getter} from 'vuex-class';
 
 @Component({
   components: {
@@ -19,8 +20,9 @@ import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
   },
 })
 export default class MarkdownView extends Vue {
-
   @Prop() public noteId: string = '';
+  @Getter('noteById') public noteById: any;
+
   public loadedMarkdown: string = '';
   public markdown: string = '';
   public note: any = {};
@@ -28,7 +30,6 @@ export default class MarkdownView extends Vue {
   @Watch('noteId', {immediate: true})
   public async onIdChanged(newNoteId: string) {
     this.noteId = newNoteId;
-
     const md = await this.loadMarkdown();
     this.markdown = md;
     this.loadedMarkdown = md;
@@ -39,8 +40,7 @@ export default class MarkdownView extends Vue {
   }
 
   private async loadMarkdown() {
-    // bit of a dummy loadout for testing purposes
-    const note = this.$store.getters.noteById(this.noteId);
+    const note = this.noteById(this.noteId);
 
     if (note) {
       return note.note;

@@ -2,7 +2,7 @@
 
   <div class="left-panel">
 
-    <div v-for="note in getNotes()" class="note-preview" @click="chooseNote(note)">
+    <div v-for="note in notes" class="note-preview" @click="chooseNote(note)">
       {{note.title}}
     </div>
 
@@ -12,21 +12,21 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import {noteService} from '@/service/noteService';
 
+import { Action} from 'vuex-class';
+import {NoteViewModel} from '@/models/NoteViewModel';
 @Component({
   components: {
 
   },
 })
 export default class Notes extends Vue {
+  @Action('loadNotes') public loadNotes: any;
 
 
-  public getNotes() {
-
-    // await noteService.getNotes();
-
-    return this.$store.getters.notes;
+  public notes: NoteViewModel[] = [];
+  public async mounted() {
+    this.notes = await this.loadNotes();
   }
 
   public chooseNote(note: any) {

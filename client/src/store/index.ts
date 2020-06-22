@@ -1,31 +1,26 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-
+import {noteService} from '@/service/noteService';
+import {NoteViewModel} from '@/models/NoteViewModel';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
   state: {
-    notes: [
-      {
-        id : 'sdflksd-dfskjfdskf-cxxc-fdskdfs',
-        title : 'First note',
-        note: '# this is the actual markdown 1',
-      },
-      {
-        id: 'sfdjksdfkjsdf-xcvcxvvxc-sadsdsfd',
-        title : 'Second note',
-        note: '# this is the actual markdown 2',
-      },
-      {
-        id: 'sdcsfdjksdfkjsdf-xcvcxvvxc-sadsdsfd',
-        title : 'Third note',
-        note: '# this is the actual markdown 3',
-      }
-    ],
+    notes: Array<NoteViewModel>(),
   },
   mutations: {
+    setNotes(state, notes: NoteViewModel[]) {
+      state.notes = notes;
+    }
   },
   actions: {
+    loadNotes: async ({commit}) => {
+      const noteys = await noteService.getNotes();
+      if (noteys) {
+        commit('setNotes', noteys);
+      }
+      return noteys;
+    }
   },
   modules: {
   },
