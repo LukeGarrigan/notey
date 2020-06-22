@@ -16,15 +16,15 @@ describe('MarkdownRenderer.vue', () => {
     const wrapper = shallowMount(MarkdownRenderer, {
       propsData: { value },
     });
-    expect((wrapper.vm as any).convertToHtml()).toMatch(`<h1 id="ishouldbeatitle">I should be a title</h1>`);
+    expect((wrapper.vm as any).convertToHtml()).toMatch(`<h2 id="ishouldbeatitle">I should be a title</h2>`);
   });
 
-  it('Should wrap in h2 tags', () => {
+  it('Should wrap in h3 tags', () => {
     const value = '## I should be a title';
     const wrapper = shallowMount(MarkdownRenderer, {
       propsData: { value },
     });
-    expect((wrapper.vm as any).convertToHtml()).toMatch(`<h2 id="ishouldbeatitle">I should be a title</h2>`);
+    expect((wrapper.vm as any).convertToHtml()).toMatch(`<h3 id="ishouldbeatitle">I should be a title</h3>`);
   });
 
   it('should create link', () => {
