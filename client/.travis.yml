@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - 10
+install:
+  - npm install
+script:
+  - npm run test:unit
+  - npm run vue-cli-service lint
+  - npm run build
