@@ -16,6 +16,7 @@ class NoteService {
             notes.push(note);
             return notes;
         } catch {
+            return '';
         }
 
     }
