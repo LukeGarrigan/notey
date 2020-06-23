@@ -27,6 +27,7 @@ export default class Notes extends Vue {
   public notes: NoteViewModel[] = [];
   public async mounted() {
     this.notes = await this.loadNotes();
+
   }
 
   public chooseNote(note: any) {

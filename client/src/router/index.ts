@@ -9,7 +9,6 @@ const routes: RouteConfig[] = [
         path: '/note/:noteId',
         name: 'note-page',
         component: MarkdownView,
-        props: true,
     }
 
 ];

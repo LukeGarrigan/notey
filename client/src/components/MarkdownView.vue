@@ -27,9 +27,8 @@ export default class MarkdownView extends Vue {
   public markdown: string = '';
   public note: any = {};
 
-  @Watch('noteId', {immediate: true})
-  public async onIdChanged(newNoteId: string) {
-    this.noteId = newNoteId;
+  public async mounted() {
+    this.noteId = this.$route.params.noteId;
     const md = await this.loadMarkdown();
     this.markdown = md;
     this.loadedMarkdown = md;
@@ -43,7 +42,7 @@ export default class MarkdownView extends Vue {
     const note = this.noteById(this.noteId);
 
     if (note) {
-      return note.note;
+      return note.markdown;
     }
 
     return '';
