@@ -30,7 +30,7 @@ namespace NoteyServer
             CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
             CloudTable table = tableClient.GetTableReference(tableName);
 
-            var noteEntity = new NoteEntity("1234", "dfjkhjhkfdgsss-fgdkhjvcjkv-cvcvc");
+            var noteEntity = new NoteEntity("1234", "3d375472-64e6-4d7f-aefe-175ad14e02d0");
 
             var columns = new List<string>();
             columns.Add("note");
@@ -51,21 +51,7 @@ namespace NoteyServer
                 Console.WriteLine(e);
                 return new OkObjectResult("shit hit the fan");
             }
-            
-
-            
-
-
-
-            /*return name != null
-                ? (ActionResult)new OkObjectResult($"Hello, {name}")
-                : new BadRequestObjectResult("Please pass a name on the query string or in the request body");
-*/
-
         }
-
-
-
     }
 
     public class NoteEntity : TableEntity

@@ -24,6 +24,10 @@ export default class App extends Vue {}
     background-color: #e2e2e2;
 
 
+    img {
+      max-width:600px;
+    }
+
     h2 {
         border-bottom: 1px solid #ddd;
     }
@@ -41,6 +45,10 @@ export default class App extends Vue {}
       margin-bottom: 1.5em;
       padding: 0.4em 0.5em 0.4em;
     }
+
+
+
+
   }
   #app {
     font-family: Avenir, Helvetica, Arial, sans-serif;

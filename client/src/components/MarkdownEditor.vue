@@ -43,6 +43,7 @@ export default class MarkdownEditor extends Vue {
     padding: 40px;
     background-color: #fbfbfb;
     overflow: auto;
+    word-break: break-all;
   }
 
 </style>
