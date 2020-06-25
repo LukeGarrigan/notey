@@ -6,14 +6,16 @@ class NoteService {
 
         try {
             const response = await axios.get('http://localhost:7071/api/notes');
-            const note: NoteViewModel = {
-                id: response.data.rowKey,
-                markdown: response.data.note,
-                title: 'test note'
-            };
-            const notes = [];
 
-            notes.push(note);
+            const notes = [];
+            for (const data of response.data) {
+                const note: NoteViewModel = {
+                    id: data.rowKey,
+                    markdown: data.note,
+                    title: data.rowKey
+                };
+                notes.push(note);
+            }
             return notes;
         } catch {
             return '';

@@ -23,28 +23,25 @@ namespace NoteyServer
 
             var tableStorageConnectionString = "AccountName=devstoreaccount1;AccountKey=Eby8vdM02xNOcqFlqUwJPLlmEtlCDXJ1OUzFT50uSRZ6IFsuFq2UVErCz4I6tq/K1SZFPTOtr/KBHBeksoGMGw==;DefaultEndpointsProtocol=http;BlobEndpoint=http://127.0.0.1:10000/devstoreaccount1;QueueEndpoint=http://127.0.0.1:10001/devstoreaccount1;TableEndpoint=http://127.0.0.1:10002/devstoreaccount1;";
             var tableName = "notey";
+            var storageAccount = CloudStorageAccount.Parse(tableStorageConnectionString);
 
+            var table = storageAccount.CreateCloudTableClient().GetTableReference(tableName);
 
-            CloudStorageAccount storageAccount = CloudStorageAccount.Parse(tableStorageConnectionString);
-
-            CloudTableClient tableClient = storageAccount.CreateCloudTableClient();
-            CloudTable table = tableClient.GetTableReference(tableName);
-
-            var noteEntity = new NoteEntity("1234", "3d375472-64e6-4d7f-aefe-175ad14e02d0");
-
-            var columns = new List<string>();
-            columns.Add("note");
-
-            TableOperation getOperation = TableOperation.Retrieve<NoteEntity>(noteEntity.PartitionKey, noteEntity.RowKey);
-
+            var query = new TableQuery<NoteEntity>().Where(
+              TableQuery.GenerateFilterCondition(
+                "PartitionKey",
+                QueryComparisons.Equal,
+                "1234"
+              ));
 
             try
             {
-                TableResult result = await table.ExecuteAsync(getOperation);
+                var result = await table.ExecuteQuerySegmentedAsync(query, null);
+                var noteEntities = new List<NoteEntity>();
 
-                var note = result.Result as NoteEntity;
+                result.Results.ForEach(note => noteEntities.Add((note as NoteEntity)));
 
-                return new OkObjectResult(note);
+                return new OkObjectResult(noteEntities);
             }
             catch (Exception e)
             {
