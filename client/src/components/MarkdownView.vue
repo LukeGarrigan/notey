@@ -27,7 +27,9 @@ export default class MarkdownView extends Vue {
   public markdown: string = '';
   public note: any = {};
 
-  public async mounted() {
+
+  @Watch('$route', {immediate: true, deep: true})
+  public async onUrlChange(newVal: any) {
     this.noteId = this.$route.params.noteId;
     const md = await this.loadMarkdown();
     this.markdown = md;

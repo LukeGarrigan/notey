@@ -12,7 +12,7 @@ class NoteService {
                 const note: NoteViewModel = {
                     id: data.rowKey,
                     markdown: data.note,
-                    title: data.rowKey
+                    title: data.title
                 };
                 notes.push(note);
             }
