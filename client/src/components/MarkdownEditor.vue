@@ -1,5 +1,5 @@
 <template>
-  <div contenteditable="true" class="markdown-editor" @keyup="textUpdated" v-html="actualMarkdown">
+  <div contenteditable="true" class="markdown-editor" @keyup="textUpdated" v-html="actualMarkdown" @keydown="clearTimer">
 
   </div>
 </template>
@@ -13,6 +13,8 @@ export default class MarkdownEditor extends Vue {
   @Prop() public value!: string;
   public actualMarkdown: string = '';
 
+  public doneTypingInterval: number = 2000;
+  public typingTimer: any;
 
   @Watch('value', { immediate: true})
   public onMarkdownChange(newMarkdown: string) {
@@ -21,6 +23,16 @@ export default class MarkdownEditor extends Vue {
 
   public textUpdated(event: any) {
     this.$emit('markdown-updated', event.target.innerText);
+    this.clearTimer();
+    this.typingTimer = setTimeout(() => this.saveNote(), this.doneTypingInterval);
+  }
+
+  public clearTimer() {
+    clearTimeout(this.typingTimer);
+  }
+
+  public saveNote() {
+    this.$emit('save-note'); // maybe do this
   }
 
 }
