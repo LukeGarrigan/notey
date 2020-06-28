@@ -22,6 +22,7 @@ import {NoteViewModel} from '@/models/NoteViewModel';
 })
 export default class Notes extends Vue {
   @Action('loadNotes') public loadNotes: any;
+  @Action('setCurrentNote') public setCurrentNote: any;
 
 
   public notes: NoteViewModel[] = [];
@@ -30,7 +31,8 @@ export default class Notes extends Vue {
 
   }
 
-  public chooseNote(note: any) {
+  public chooseNote(note: NoteViewModel) {
+    this.setCurrentNote(note);
     this.$router.push({
       name: 'note-page',
       params: {noteId: note.id}

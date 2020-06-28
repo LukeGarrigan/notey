@@ -1,5 +1,6 @@
 import axios from 'axios';
 import {NoteViewModel} from '@/models/NoteViewModel';
+import {AddNoteRequest} from '@/models/requests/AddNoteRequest';
 class NoteService {
 
     public static async getNotes() {
@@ -21,6 +22,10 @@ class NoteService {
             return '';
         }
 
+    }
+
+    public static async saveNote(note: AddNoteRequest) {
+        const response = await axios.post('http://localhost:7071/api/AddOrUpdateNote', note);
     }
 }
 

@@ -4,13 +4,22 @@ import {noteService} from '@/service/noteService';
 import {NoteViewModel} from '@/models/NoteViewModel';
 Vue.use(Vuex);
 
+export interface ModuleState {
+  currentNote: NoteViewModel;
+  notes: NoteViewModel[];
+}
+
 export default new Vuex.Store({
   state: {
     notes: Array<NoteViewModel>(),
-  },
+    currentNote: {title: '', markdown: '', id: ''} as NoteViewModel
+  } as ModuleState,
   mutations: {
     setNotes(state, notes: NoteViewModel[]) {
       state.notes = notes;
+    },
+    setCurrentNote(state, note: NoteViewModel) {
+      state.currentNote = note;
     }
   },
   actions: {
@@ -20,18 +29,26 @@ export default new Vuex.Store({
         commit('setNotes', noteys);
       }
       return noteys;
+    },
+    setCurrentNote: async ({commit}, note: NoteViewModel) => {
+      commit('setCurrentNote', note);
     }
   },
   modules: {
   },
   getters: {
-
     notes: (state) => {
       return state.notes;
     },
 
     noteById: (state) => (id: string) => {
       return state.notes.find(n => n.id === id);
+    },
+
+    currentNote: (state) => {
+      return state.currentNote;
     }
+
+
   },
 });

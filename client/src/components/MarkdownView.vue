@@ -1,7 +1,7 @@
 <template>
 
   <div class="markdown-view">
-    <MarkdownEditor :value="loadedMarkdown" @markdown-updated="markdownUpdated"></MarkdownEditor>
+    <MarkdownEditor :value="loadedMarkdown" @markdown-updated="markdownUpdated" @save-note="saveNote"></MarkdownEditor>
     <MarkdownRenderer :value="markdown"></MarkdownRenderer>
   </div>
 
@@ -12,6 +12,9 @@ import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
 import MarkdownEditor from '@/components/MarkdownEditor.vue';
 import MarkdownRenderer from '@/components/MarkdownRenderer.vue';
 import {Getter} from 'vuex-class';
+import {NoteViewModel} from "@/models/NoteViewModel";
+import {noteService} from "@/service/noteService";
+import {AddNoteRequest} from "@/models/requests/AddNoteRequest";
 
 @Component({
   components: {
@@ -22,11 +25,11 @@ import {Getter} from 'vuex-class';
 export default class MarkdownView extends Vue {
   @Prop() public noteId: string = '';
   @Getter('noteById') public noteById: any;
+  @Getter('currentNote') public currentNote!: NoteViewModel;
 
   public loadedMarkdown: string = '';
   public markdown: string = '';
   public note: any = {};
-
 
   @Watch('$route', {immediate: true, deep: true})
   public async onUrlChange(newVal: any) {
@@ -40,13 +43,20 @@ export default class MarkdownView extends Vue {
     this.markdown = updatedMarkdown;
   }
 
+  public async saveNote() {
+    let saveNote: AddNoteRequest = {
+      id: this.currentNote.id,
+      note: this.markdown,
+      title: this.currentNote.title
+    };
+    await noteService.saveNote(saveNote);
+  }
+
   private async loadMarkdown() {
     const note = this.noteById(this.noteId);
-
     if (note) {
       return note.markdown;
     }
-
     return '';
   }
 

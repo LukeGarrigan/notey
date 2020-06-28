@@ -32,7 +32,7 @@ export default class MarkdownEditor extends Vue {
   }
 
   public saveNote() {
-    this.$emit('save-note'); // maybe do this
+    this.$emit('save-note');
   }
 
 }
