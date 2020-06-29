@@ -8,6 +8,6 @@ namespace NoteyServer
     {
         public string Id { get; set; }
         public string Title { get; set; }
-        public string Note { get; set; }
+        public string Markdown { get; set; }
     }
 }

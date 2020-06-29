@@ -12,9 +12,10 @@ class NoteService {
             for (const data of response.data) {
                 const note: NoteViewModel = {
                     id: data.rowKey,
-                    markdown: data.note,
+                    markdown: data.markdown,
                     title: data.title
                 };
+
                 notes.push(note);
             }
             return notes;

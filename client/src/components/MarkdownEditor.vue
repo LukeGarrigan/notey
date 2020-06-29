@@ -1,5 +1,5 @@
 <template>
-  <div contenteditable="true" class="markdown-editor" @keyup="textUpdated" v-html="actualMarkdown" @keydown="clearTimer">
+  <div contenteditable="true" class="markdown-editor" @keyup="textUpdated" v-text="actualMarkdown" @keydown="clearTimer">
 
   </div>
 </template>
@@ -18,6 +18,7 @@ export default class MarkdownEditor extends Vue {
 
   @Watch('value', { immediate: true})
   public onMarkdownChange(newMarkdown: string) {
+
     this.actualMarkdown = newMarkdown;
   }
 
@@ -56,6 +57,7 @@ export default class MarkdownEditor extends Vue {
     background-color: #fbfbfb;
     overflow: auto;
     word-break: break-all;
+    white-space: pre-wrap;
   }
 
 </style>

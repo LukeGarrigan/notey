@@ -1,5 +1,5 @@
 export interface AddNoteRequest {
     id: string;
-    note: string;
+    markdown: string;
     title: string;
 }

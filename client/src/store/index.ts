@@ -20,6 +20,9 @@ export default new Vuex.Store({
     },
     setCurrentNote(state, note: NoteViewModel) {
       state.currentNote = note;
+    },
+    updateCurrentNote(state, note: NoteViewModel) {
+      state.currentNote = note;
     }
   },
   actions: {
@@ -32,6 +35,9 @@ export default new Vuex.Store({
     },
     setCurrentNote: async ({commit}, note: NoteViewModel) => {
       commit('setCurrentNote', note);
+    },
+    updateCurrentNote: async ({commit}, note: NoteViewModel) => {
+      commit('updateCurrentNote', note);
     }
   },
   modules: {

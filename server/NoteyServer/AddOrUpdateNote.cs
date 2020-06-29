@@ -44,7 +44,7 @@ namespace NoteyServer
 
                 if (note != null) 
                 {
-                    note.Note = addNoteRequest.Note;
+                    note.Markdown = addNoteRequest.Markdown;
                     note.Title = addNoteRequest.Title;
 
                    
@@ -61,7 +61,7 @@ namespace NoteyServer
                 {
                     PartitionKey = "1234",
                     RowKey = noteId,
-                    Note = addNoteRequest.Note,
+                    Markdown = addNoteRequest.Markdown,
                     Title = addNoteRequest.Title
                 });
 

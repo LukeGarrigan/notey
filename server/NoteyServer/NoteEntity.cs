@@ -11,7 +11,7 @@ namespace NoteyServer
             PartitionKey = userId;
             RowKey = noteId;
         }
-        public string Note { get; set; }
+        public string Markdown { get; set; }
         public string Title { get; set; }
 
 
