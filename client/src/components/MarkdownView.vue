@@ -49,7 +49,7 @@ export default class MarkdownView extends Vue {
   public async saveNote() {
     const saveNote: AddNoteRequest = {
       id: this.currentNote.id,
-      markdown: this.markdown,
+      markdown: this.currentNote.markdown,
       title: this.currentNote.title
     };
     await noteService.saveNote(saveNote);
