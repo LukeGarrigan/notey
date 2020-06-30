@@ -57,6 +57,7 @@ export default class MarkdownView extends Vue {
 
   private async loadMarkdown() {
     const note = this.noteById(this.noteId);
+
     if (note) {
       this.note = note;
     }
@@ -72,7 +73,7 @@ export default class MarkdownView extends Vue {
 
   .markdown-view {
     width: 100%;
-    height:1000px;
+    height: 90%;
     display:flex;
     justify-content: left;
   }

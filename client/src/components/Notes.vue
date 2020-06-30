@@ -30,15 +30,11 @@ export default class Notes extends Vue {
   }
 
   public chooseNote(note: NoteViewModel) {
-
-
     this.setCurrentNote(note);
     this.$router.push({
       name: 'note-page',
       params: {noteId: note.id}
     }).catch(err => {});
-
-
   }
 
 }

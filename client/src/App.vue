@@ -20,10 +20,14 @@ export default class App extends Vue {}
 </script>
 
 <style lang="scss">
+
+  html {
+    height: 100%;
+  }
+
   body {
+    height: 100%;
     background-color: #e2e2e2;
-
-
     img {
       max-width:600px;
     }
@@ -51,6 +55,7 @@ export default class App extends Vue {}
 
   }
   #app {
+    position:relative;
     font-family: Avenir, Helvetica, Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -58,5 +63,6 @@ export default class App extends Vue {}
     color: #2c3e50;
     margin-top: 60px;
     display:flex;
+    height: 100%;
   }
 </style>

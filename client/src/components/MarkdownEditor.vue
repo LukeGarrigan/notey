@@ -18,7 +18,6 @@ export default class MarkdownEditor extends Vue {
 
   @Watch('value', { immediate: true})
   public onMarkdownChange(newMarkdown: string) {
-
     this.actualMarkdown = newMarkdown;
   }
 
@@ -45,7 +44,7 @@ export default class MarkdownEditor extends Vue {
   .markdown-editor {
     position:relative;
     height: 100%;
-    width:40%;
+    width:45%;
     border-left: #d7d7d7 solid 2px;
     border-top: #d7d7d7 solid 2px;
     border-bottom: #d7d7d7 solid 2px;
@@ -56,8 +55,9 @@ export default class MarkdownEditor extends Vue {
     padding: 40px;
     background-color: #fbfbfb;
     overflow: auto;
-    word-break: break-all;
+    word-break: break-word;
     white-space: pre-wrap;
+    box-sizing:border-box;
   }
 
 </style>

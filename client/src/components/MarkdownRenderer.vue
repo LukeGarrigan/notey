@@ -38,7 +38,7 @@ export default class MarkdownRenderer extends Vue {
 <style scoped lang="scss">
 
   .markdown-renderer {
-    width: 40%;
+    width: 45%;
     border: #d7d7d7 solid 2px;
     font-size: 1.5rem;
     height: 100%;
@@ -46,6 +46,7 @@ export default class MarkdownRenderer extends Vue {
     background-color: #ffffff;
     padding: 40px;
     overflow: auto;
+    box-sizing: border-box;
   }
 
 </style>
