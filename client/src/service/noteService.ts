@@ -27,6 +27,7 @@ class NoteService {
 
     public static async saveNote(note: AddNoteRequest) {
         const response = await axios.post('http://localhost:7071/api/AddOrUpdateNote', note);
+        return response.data;
     }
 }
 

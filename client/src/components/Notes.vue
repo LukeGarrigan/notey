@@ -2,9 +2,22 @@
 
   <div class="left-panel">
 
+    <div class="all-notes">
+
+      <div class="note-count">
+        {{notes.length}} {{notes.length == 1 ? 'note' : 'notes'}}
+      </div>
+
+      <div class="plus-icon" @click="addNote">
+        <PlusIcon></PlusIcon>
+      </div>
+    </div>
+
     <div v-for="note in notes" class="note-preview" @click="chooseNote(note)">
       {{note.title}}
     </div>
+
+
 
   </div>
 
@@ -15,9 +28,13 @@ import { Component, Vue } from 'vue-property-decorator';
 
 import { Action} from 'vuex-class';
 import {NoteViewModel} from '@/models/NoteViewModel';
+import PlusIcon from 'vue-material-design-icons/Plus.vue';
+import {noteService} from '@/service/noteService';
+import {AddNoteRequest} from '@/models/requests/AddNoteRequest';
+
 @Component({
   components: {
-
+    PlusIcon,
   },
 })
 export default class Notes extends Vue {
@@ -37,12 +54,59 @@ export default class Notes extends Vue {
     }).catch(err => {});
   }
 
+  public async addNote() {
+    const addNoteRequest: AddNoteRequest = {
+      id: '',
+      markdown: '',
+      title: ''
+    };
+
+    const id = await noteService.saveNote(addNoteRequest);
+
+    await this.$router.push({
+      name: 'note-page',
+      params: {noteId: id}
+    });
+  }
+
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
+
+  .all-notes {
+    box-sizing: border-box;
+    padding:2em;
+    height:100px;
+    display: flex;
+    align-items: center;
+
+    color:grey;
+
+    .note-count {
+      text-align: left;
+      width:90%
+    }
+
+    .plus-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+
+      &:hover {
+        color: white;
+        background-color: grey;
+        cursor: pointer;
+      }
+    }
+  }
 
   .left-panel {
     width:20%;
