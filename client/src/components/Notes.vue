@@ -8,7 +8,7 @@
         {{notes.length}} {{notes.length == 1 ? 'note' : 'notes'}}
       </div>
 
-      <div class="plus-icon" @click="addNote">
+      <div class="plus-icon" @click="showModal = true">
         <PlusIcon></PlusIcon>
       </div>
     </div>
@@ -18,6 +18,10 @@
     </div>
 
 
+    <Modal v-if="showModal">
+      <h1>Enter a title!</h1>
+      <input v-model="title" name="value" onsubmit="addNote" @keypress.enter="addNote"/>
+    </Modal>
 
   </div>
 
@@ -31,17 +35,21 @@ import {NoteViewModel} from '@/models/NoteViewModel';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
 import {noteService} from '@/service/noteService';
 import {AddNoteRequest} from '@/models/requests/AddNoteRequest';
+import Modal from '@/components/Modal.vue';
 
 @Component({
   components: {
     PlusIcon,
+    Modal
   },
 })
 export default class Notes extends Vue {
   @Action('loadNotes') public loadNotes: any;
   @Action('setCurrentNote') public setCurrentNote: any;
+  public showModal: boolean = false;
 
   public notes: NoteViewModel[] = [];
+  public title: string = '';
   public async mounted() {
     this.notes = await this.loadNotes();
   }
@@ -55,14 +63,15 @@ export default class Notes extends Vue {
   }
 
   public async addNote() {
+    this.showModal = false;
     const addNoteRequest: AddNoteRequest = {
       id: '',
       markdown: '',
-      title: ''
+      title: this.title
     };
 
     const id = await noteService.saveNote(addNoteRequest);
-
+    this.notes = await this.loadNotes(); // should be reconsidered
     await this.$router.push({
       name: 'note-page',
       params: {noteId: id}
@@ -75,6 +84,11 @@ export default class Notes extends Vue {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
 
+  input {
+    width: 400px;
+    height: 40px;
+    font-size: 2em;
+  }
 
   .all-notes {
     box-sizing: border-box;
