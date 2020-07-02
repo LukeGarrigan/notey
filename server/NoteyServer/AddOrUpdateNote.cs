@@ -46,7 +46,7 @@ namespace NoteyServer
                 {
                     note.Markdown = addNoteRequest.Markdown;
                     note.Title = addNoteRequest.Title;
-
+                    note.LastUpdateTime = DateTime.UtcNow;
                    
                     var replace = TableOperation.Replace(note);
 
@@ -62,7 +62,8 @@ namespace NoteyServer
                     PartitionKey = "1234",
                     RowKey = noteId,
                     Markdown = addNoteRequest.Markdown,
-                    Title = addNoteRequest.Title
+                    Title = addNoteRequest.Title,
+                    LastUpdateTime = DateTime.UtcNow
                 });
 
 

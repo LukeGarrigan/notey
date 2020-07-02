@@ -70,6 +70,8 @@ export default class Notes extends Vue {
       title: this.title
     };
 
+    this.title = '';
+
     const id = await noteService.saveNote(addNoteRequest);
     this.notes = await this.loadNotes(); // should be reconsidered
     await this.$router.push({

@@ -40,7 +40,7 @@ namespace NoteyServer
                 var noteEntities = new List<NoteEntity>();
 
                 result.Results.ForEach(note => noteEntities.Add((note as NoteEntity)));
-
+                noteEntities.Sort((note1, note2) => note2.LastUpdateTime.CompareTo(note1.LastUpdateTime));
                 return new OkObjectResult(noteEntities);
             }
             catch (Exception e)

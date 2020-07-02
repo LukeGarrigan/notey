@@ -1,4 +1,6 @@
 ﻿using Microsoft.WindowsAzure.Storage.Table;
+using System;
+
 namespace NoteyServer
 {
 
@@ -14,6 +16,7 @@ namespace NoteyServer
         public string Markdown { get; set; }
         public string Title { get; set; }
 
+        public DateTime LastUpdateTime { get; set; }
 
     }
 }
