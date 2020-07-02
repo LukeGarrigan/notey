@@ -13,9 +13,9 @@
       </div>
     </div>
 
-    <div v-for="note in notes" class="note-preview" @click="chooseNote(note)">
+    <Article :ref="note.id" v-for="note in notes" :id="note.id" class="note-preview" @click="chooseNote(note)" tabindex="1">
       {{note.title}}
-    </div>
+    </Article>
 
 
     <Modal v-if="showModal">
@@ -50,11 +50,14 @@ export default class Notes extends Vue {
 
   public notes: NoteViewModel[] = [];
   public title: string = '';
+  public selected: string = '';
+
   public async mounted() {
     this.notes = await this.loadNotes();
   }
 
   public chooseNote(note: NoteViewModel) {
+    this.setStyleForNote(note.id);
     this.setCurrentNote(note);
     this.$router.push({
       name: 'note-page',
@@ -80,6 +83,20 @@ export default class Notes extends Vue {
     });
   }
 
+  private setStyleForNote(id: string) {
+    const element: HTMLElement | null = document.getElementById(this.selected);
+    if (element) {
+      element.style.border = '';
+    }
+    this.selected = id;
+
+    const selectedElement: HTMLElement | null = document.getElementById(this.selected);
+    if (selectedElement) {
+      selectedElement.style.border = '#8bc6d7 solid 2px';
+    }
+
+
+  }
 }
 </script>
 
@@ -130,10 +147,10 @@ export default class Notes extends Vue {
   }
 
   .note-preview {
+    outline: none;
     display:flex;
     align-items: center;
     justify-content: center;
-    
     height:150px;
     border-left: #d7d7d7 solid 2px;
     border-bottom: #d7d7d7 solid 2px;
@@ -144,6 +161,7 @@ export default class Notes extends Vue {
       border: #8bc6d7 solid 2px;
       cursor: pointer;
     }
+
   }
 
 </style>
