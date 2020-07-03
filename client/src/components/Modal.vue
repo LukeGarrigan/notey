@@ -1,7 +1,7 @@
 <template>
 
   <div class="modal-container">
-    <div class="modal">
+    <div class="modal" v-on-clickaway="clickedAway">
       <slot></slot>
     </div>
   </div>
@@ -10,11 +10,18 @@
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
+import {mixin as clickaway} from 'vue-clickaway2';
 
 
-@Component
+@Component({
+  mixins: [clickaway]
+})
 export default class Modal extends Vue {
 
+
+  public clickedAway() {
+    this.$emit('clickedAway');
+  }
 
 }
 </script>

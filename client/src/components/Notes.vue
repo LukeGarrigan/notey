@@ -8,19 +8,27 @@
         {{notes.length}} {{notes.length == 1 ? 'note' : 'notes'}}
       </div>
 
-      <div class="plus-icon" @click="showModal = true">
+      <div class="plus-icon" @click="enableModal()">
         <PlusIcon></PlusIcon>
       </div>
     </div>
 
     <Article :ref="note.id" v-for="note in notes" :id="note.id" class="note-preview" @click="chooseNote(note)" tabindex="1">
-      {{note.title}}
+      <div class="title">
+        {{note.title}}
+      </div>
+
+
+      <div class="update-time">
+        {{formatDate(note)}}
+      </div>
+
     </Article>
 
 
-    <Modal v-if="showModal">
+    <Modal v-if="showModal" @clickedAway="showModal = false">
       <h1>Enter a title!</h1>
-      <input v-model="title" name="value" onsubmit="addNote" @keypress.enter="addNote"/>
+      <input id="titleInput" v-model="title" name="value" onsubmit="addNote" @keypress.enter="addNote"/>
     </Modal>
 
   </div>
@@ -36,6 +44,7 @@ import PlusIcon from 'vue-material-design-icons/Plus.vue';
 import {noteService} from '@/service/noteService';
 import {AddNoteRequest} from '@/models/requests/AddNoteRequest';
 import Modal from '@/components/Modal.vue';
+import moment from 'moment';
 
 @Component({
   components: {
@@ -81,6 +90,20 @@ export default class Notes extends Vue {
       name: 'note-page',
       params: {noteId: id}
     });
+  }
+
+  public enableModal() {
+    this.showModal = true;
+    this.$nextTick(() => {// time for it to be added to the dom
+      const input: HTMLElement | null = document.getElementById('titleInput');
+      if (input) {
+        input.focus();
+      }
+    });
+  }
+
+  public formatDate(note: NoteViewModel) {
+    return moment(note.lastUpdateTime).fromNow();
   }
 
   private setStyleForNote(id: string) {
@@ -147,13 +170,17 @@ export default class Notes extends Vue {
   }
 
   .note-preview {
+    box-sizing: border-box;
     outline: none;
     display:flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     height:150px;
     border-left: #d7d7d7 solid 2px;
     border-bottom: #d7d7d7 solid 2px;
+    border-right: #d7d7d7 solid 2px;
+    border-top: #d7d7d7 solid 2px;
     font-size:1.5em;
 
 
@@ -162,6 +189,18 @@ export default class Notes extends Vue {
       cursor: pointer;
     }
 
+    .title {
+      display: flex;
+      font-size: 1.2em;
+    }
+
+    .update-time {
+      display: flex;
+      font-size: 0.6em;
+      color: grey;
+    }
+
   }
+
 
 </style>

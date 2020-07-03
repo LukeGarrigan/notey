@@ -13,9 +13,9 @@ class NoteService {
                 const note: NoteViewModel = {
                     id: data.rowKey,
                     markdown: data.markdown,
-                    title: data.title
+                    title: data.title,
+                    lastUpdateTime: data.lastUpdateTime
                 };
-
                 notes.push(note);
             }
             return notes;
