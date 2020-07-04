@@ -58,6 +58,18 @@ export default class MarkdownEditor extends Vue {
     word-break: break-word;
     white-space: pre-wrap;
     box-sizing:border-box;
+
+    &::-webkit-scrollbar {
+      width: 12px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #c9ced0;
+      border-radius: 10px;
+      &:hover {
+        background-color: #babfc1;
+      }
+    }
   }
 
 </style>

@@ -2,7 +2,7 @@
 
   <div class="left-panel">
 
-    <div class="all-notes">
+    <div class="top-panel">
 
       <div class="note-count">
         {{notes.length}} {{notes.length == 1 ? 'note' : 'notes'}}
@@ -13,17 +13,21 @@
       </div>
     </div>
 
-    <Article :ref="note.id" v-for="note in notes" :id="note.id" class="note-preview" @click="chooseNote(note)" tabindex="1">
-      <div class="title">
-        {{note.title}}
-      </div>
+    <div class="notes-container">
+      <Article :ref="note.id" v-for="note in notes" :id="note.id" class="note-preview" @click="chooseNote(note)" tabindex="1">
+        <div class="title">
+          {{note.title}}
+        </div>
 
 
-      <div class="update-time">
-        {{formatDate(note)}}
-      </div>
+        <div class="update-time">
+          {{formatDate(note)}}
+        </div>
 
-    </Article>
+      </Article>
+
+    </div>
+
 
 
     <Modal v-if="showModal" @clickedAway="showModal = false">
@@ -63,6 +67,7 @@ export default class Notes extends Vue {
 
   public async mounted() {
     this.notes = await this.loadNotes();
+    this.openFirstNote();
   }
 
   public chooseNote(note: NoteViewModel) {
@@ -106,6 +111,13 @@ export default class Notes extends Vue {
     return moment(note.lastUpdateTime).fromNow();
   }
 
+  private openFirstNote() {
+    this.$router.push({
+      name: 'note-page',
+      params: {noteId: this.notes[0].id}
+    }).catch(err => {});
+  }
+
   private setStyleForNote(id: string) {
     const element: HTMLElement | null = document.getElementById(this.selected);
     if (element) {
@@ -132,13 +144,29 @@ export default class Notes extends Vue {
     font-size: 2em;
   }
 
-  .all-notes {
+  .notes-container {
+    height: 91%;
+    overflow: auto;
+
+    &::-webkit-scrollbar {
+      width: 0.8em;
+    }
+
+    &::-webkit-scrollbar-thumb {
+      background-color: #c9ced0;
+      border-radius: 10px;
+      &:hover {
+        background-color: #babfc1;
+      }
+    }
+  }
+
+  .top-panel {
     box-sizing: border-box;
     padding:2em;
     height:100px;
     display: flex;
     align-items: center;
-
     color:grey;
 
     .note-count {
@@ -166,7 +194,7 @@ export default class Notes extends Vue {
 
   .left-panel {
     width:20%;
-    height:1080px;
+    height:90%;
   }
 
   .note-preview {

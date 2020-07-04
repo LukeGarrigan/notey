@@ -26,6 +26,9 @@ export default class App extends Vue {}
   }
 
   body {
+    overflow: hidden;
+
+
     height: 100%;
     background-color: #e2e2e2;
     img {
