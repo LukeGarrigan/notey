@@ -13,7 +13,7 @@
       </div>
     </div>
 
-    <div class="notes-container">
+    <div class="notes-container" >
       <Article :ref="note.id" v-for="note in notes" :id="note.id" class="note-preview" @click="chooseNote(note)" tabindex="1">
         <div class="title">
           {{note.title}}
@@ -22,6 +22,12 @@
 
         <div class="update-time">
           {{formatDate(note)}}
+        </div>
+
+
+
+        <div class="trash-icon">
+          <TrashIcon @click="deleteNote(note.id)"></TrashIcon>
         </div>
 
       </Article>
@@ -45,6 +51,7 @@ import { Component, Vue } from 'vue-property-decorator';
 import { Action} from 'vuex-class';
 import {NoteViewModel} from '@/models/NoteViewModel';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
+import TrashIcon from 'vue-material-design-icons/TrashCanOutline.vue';
 import {noteService} from '@/service/noteService';
 import {AddNoteRequest} from '@/models/requests/AddNoteRequest';
 import Modal from '@/components/Modal.vue';
@@ -53,7 +60,8 @@ import moment from 'moment';
 @Component({
   components: {
     PlusIcon,
-    Modal
+    Modal,
+    TrashIcon
   },
 })
 export default class Notes extends Vue {
@@ -111,6 +119,13 @@ export default class Notes extends Vue {
     return moment(note.lastUpdateTime).fromNow();
   }
 
+  public async deleteNote(noteId: string) {
+    await noteService.deleteNote(noteId);
+    this.notes = await this.loadNotes();
+    this.openFirstNote();
+
+  }
+
   private openFirstNote() {
     this.$router.push({
       name: 'note-page',
@@ -159,6 +174,7 @@ export default class Notes extends Vue {
         background-color: #babfc1;
       }
     }
+
   }
 
   .top-panel {
@@ -212,9 +228,19 @@ export default class Notes extends Vue {
     font-size:1.5em;
 
 
+    .trash-icon {
+      display:none;
+    }
+
     &:hover {
       border: #8bc6d7 solid 2px;
       cursor: pointer;
+
+      .trash-icon {
+        position: absolute;
+        display:inline;
+        left: 10px;
+      }
     }
 
     .title {

@@ -29,6 +29,10 @@ class NoteService {
         const response = await axios.post('http://localhost:7071/api/AddOrUpdateNote', note);
         return response.data;
     }
+
+    public static async deleteNote(noteId: string) {
+        await axios.delete(`http://localhost:7071/api/notes/${noteId}`);
+    }
 }
 
 export { NoteService as noteService };
