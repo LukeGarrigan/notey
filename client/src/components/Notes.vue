@@ -1,8 +1,10 @@
 <template>
 
   <div class="left-panel">
+    <input placeholder="Search" @keyup="doSearch" class="search-box">
 
     <div class="top-panel">
+
 
       <div class="note-count">
         {{notes.length}} {{notes.length == 1 ? 'note' : 'notes'}}
@@ -66,6 +68,7 @@ import moment from 'moment';
 })
 export default class Notes extends Vue {
   @Action('loadNotes') public loadNotes: any;
+  @Action('searchNotes') public searchNotes: any;
   @Action('setCurrentNote') public setCurrentNote: any;
   public showModal: boolean = false;
 
@@ -126,6 +129,15 @@ export default class Notes extends Vue {
 
   }
 
+  public async doSearch(event: any) {
+    const value = event.target.value;
+    if (value) {
+      this.notes = await this.searchNotes(value.toLowerCase());
+    } else {
+      this.notes = await this.loadNotes();
+    }
+  }
+
   private openFirstNote() {
     this.$router.push({
       name: 'note-page',
@@ -152,6 +164,16 @@ export default class Notes extends Vue {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss">
+
+  .search-box {
+    position: relative;
+    display: flex;
+    width: 400px;
+
+    &::placeholder {
+      font-size: 25px;
+    }
+  }
 
   input {
     width: 400px;

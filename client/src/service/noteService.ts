@@ -33,6 +33,23 @@ class NoteService {
     public static async deleteNote(noteId: string) {
         await axios.delete(`http://localhost:7071/api/notes/${noteId}`);
     }
+
+    public static async searchNote(value: any) {
+        const response = await axios.get(`http://localhost:7071/api/notes/${value}/search`);
+
+        const notes = [];
+        for (const data of response.data) {
+            const note: NoteViewModel = {
+                id: data.rowKey,
+                markdown: data.markdown,
+                title: data.title,
+                lastUpdateTime: data.lastUpdateTime
+            };
+            notes.push(note);
+        }
+        return notes;
+
+    }
 }
 
 export { NoteService as noteService };

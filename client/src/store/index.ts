@@ -33,6 +33,14 @@ export default new Vuex.Store({
       }
       return noteys;
     },
+    searchNotes: async ({commit}, label) => {
+      const noteys = await noteService.searchNote(label);
+      if (noteys) {
+        commit('setNotes', noteys);
+      }
+      return noteys;
+    },
+
     setCurrentNote: async ({commit}, note: NoteViewModel) => {
       commit('setCurrentNote', note);
     },
