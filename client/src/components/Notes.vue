@@ -214,6 +214,7 @@ export default class Notes extends Vue {
   }
 
   .note-preview {
+    position: relative;
     box-sizing: border-box;
     outline: none;
     display:flex;
