@@ -1,14 +1,16 @@
 <template>
-  <div contenteditable="true" class="markdown-editor" @keyup="textUpdated" v-text="actualMarkdown" @keydown="clearTimer">
+  <div contenteditable="true" class="markdown-editor" @keyup="textUpdated" v-html="actualMarkdown" @keydown="clearTimer">
 
   </div>
 </template>
 
 <script lang="ts">
 import {Component, Prop, Vue, Watch} from 'vue-property-decorator';
+import {Getter} from 'vuex-class';
 
 @Component
 export default class MarkdownEditor extends Vue {
+  @Getter('searchValue') public getSearchValue: any;
 
   @Prop() public value!: string;
   public actualMarkdown: string = '';
@@ -19,6 +21,12 @@ export default class MarkdownEditor extends Vue {
   @Watch('value', { immediate: true})
   public onMarkdownChange(newMarkdown: string) {
     this.actualMarkdown = newMarkdown;
+    this.highlightSearchedForWords();
+  }
+
+  @Watch('getSearchValue', {immediate: true})
+  public onSearchValueChange() {
+    this.highlightSearchedForWords();
   }
 
   public textUpdated(event: any) {
@@ -35,6 +43,18 @@ export default class MarkdownEditor extends Vue {
     this.$emit('save-note');
   }
 
+  private highlightSearchedForWords() {
+    this.stripHighlightingHtml();
+    if (this.getSearchValue.length > 1) {
+      const re = new RegExp(this.getSearchValue, 'g');
+      this.actualMarkdown = this.actualMarkdown.replace(re, `<span class="highlighted">${this.getSearchValue}</span>`);
+    }
+  }
+
+  private stripHighlightingHtml() {
+    this.actualMarkdown = this.actualMarkdown.replace(/<span class="highlighted">/g, '');
+    this.actualMarkdown = this.actualMarkdown.replace(/<\/span>/g, '');
+  }
 }
 </script>
 
@@ -72,4 +92,15 @@ export default class MarkdownEditor extends Vue {
     }
   }
 
+
+
+</style>
+
+<style>
+  .highlighted {
+    background-color: #1b8080;
+    color: white;
+    border-radius: 5px;
+    padding: 5px;
+  }
 </style>

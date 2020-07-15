@@ -50,7 +50,7 @@
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
 
-import { Action} from 'vuex-class';
+import {Action, Getter, Mutation} from 'vuex-class';
 import {NoteViewModel} from '@/models/NoteViewModel';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
 import TrashIcon from 'vue-material-design-icons/TrashCanOutline.vue';
@@ -70,6 +70,8 @@ export default class Notes extends Vue {
   @Action('loadNotes') public loadNotes: any;
   @Action('searchNotes') public searchNotes: any;
   @Action('setCurrentNote') public setCurrentNote: any;
+  @Mutation('setSearchValue') public setSearchValue: any;
+
   public showModal: boolean = false;
 
   public notes: NoteViewModel[] = [];
@@ -131,6 +133,7 @@ export default class Notes extends Vue {
 
   public async doSearch(event: any) {
     const value = event.target.value;
+    this.setSearchValue(value);
     if (value) {
       this.notes = await this.searchNotes(value.toLowerCase());
     } else {

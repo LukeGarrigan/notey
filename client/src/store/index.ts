@@ -7,12 +7,14 @@ Vue.use(Vuex);
 export interface ModuleState {
   currentNote: NoteViewModel;
   notes: NoteViewModel[];
+  searchValue: string;
 }
 
 export default new Vuex.Store({
   state: {
     notes: Array<NoteViewModel>(),
-    currentNote: {title: '', markdown: '', id: ''} as NoteViewModel
+    currentNote: {title: '', markdown: '', id: ''} as NoteViewModel,
+    searchValue: '',
   } as ModuleState,
   mutations: {
     setNotes(state, notes: NoteViewModel[]) {
@@ -23,6 +25,9 @@ export default new Vuex.Store({
     },
     updateCurrentNote(state, note: NoteViewModel) {
       state.currentNote = note;
+    },
+    setSearchValue(state, value: string) {
+      state.searchValue = value;
     }
   },
   actions: {
@@ -61,8 +66,11 @@ export default new Vuex.Store({
 
     currentNote: (state) => {
       return state.currentNote;
-    }
+    },
 
+    searchValue: (state) => {
+      return state.searchValue;
+    }
 
   },
 });
