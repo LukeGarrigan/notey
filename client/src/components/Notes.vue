@@ -4,8 +4,6 @@
     <input placeholder="Search" @keyup="doSearch" class="search-box">
 
     <div class="top-panel">
-
-
       <div class="note-count">
         {{notes.length}} {{notes.length == 1 ? 'note' : 'notes'}}
       </div>
@@ -16,7 +14,7 @@
     </div>
 
     <div class="notes-container" >
-      <Article :ref="note.id" v-for="note in notes" :id="note.id" class="note-preview" @click="chooseNote(note)" tabindex="1">
+      <Article :ref="note.id" v-for="note in notes" :id="note.id" class="note-preview" @click="chooseNote(note)" tabindex="1"  @contextmenu.prevent="rightClickedNote(note, $event)">
         <div class="title">
           {{note.title}}
         </div>
@@ -25,13 +23,6 @@
         <div class="update-time">
           {{formatDate(note)}}
         </div>
-
-
-
-        <div class="trash-icon">
-          <TrashIcon @click="deleteNote(note.id)"></TrashIcon>
-        </div>
-
       </Article>
 
     </div>
@@ -43,6 +34,26 @@
       <input id="titleInput" v-model="title" name="value" onsubmit="addNote" @keypress.enter="addNote"/>
     </Modal>
 
+    <Modal v-if="showEditModal" @clickedAway="showEditModal = false">
+      <h1>Enter a title!</h1>
+      <input id="titleEdit" v-model="contextNote.title" name="value" onsubmit="editNoteTitle" @keypress.enter="editNoteTitle"/>
+    </Modal>
+
+
+
+    <ContextMenu ref="context" v-show="contextNote && showContext">
+      <li class="title">
+        {{contextNote.title}}
+      </li>
+      <hr>
+      <li @click="enableEditModal">
+        <a href="#">Edit title</a> <EditIcon></EditIcon>
+      </li>
+      <li @click="deleteNote(contextNote.id)">
+        <a href="#">Delete</a> <TrashIcon></TrashIcon>
+      </li>
+    </ContextMenu>
+
   </div>
 
 </template>
@@ -53,17 +64,20 @@ import { Component, Vue } from 'vue-property-decorator';
 import {Action, Getter, Mutation} from 'vuex-class';
 import {NoteViewModel} from '@/models/NoteViewModel';
 import PlusIcon from 'vue-material-design-icons/Plus.vue';
+import EditIcon from 'vue-material-design-icons/SquareEditOutline.vue';
 import TrashIcon from 'vue-material-design-icons/TrashCanOutline.vue';
 import {noteService} from '@/service/noteService';
 import {AddNoteRequest} from '@/models/requests/AddNoteRequest';
 import Modal from '@/components/Modal.vue';
 import moment from 'moment';
-
+import ContextMenu from '@/components/ContextMenu.vue';
 @Component({
   components: {
     PlusIcon,
     Modal,
-    TrashIcon
+    TrashIcon,
+    ContextMenu,
+    EditIcon
   },
 })
 export default class Notes extends Vue {
@@ -73,10 +87,19 @@ export default class Notes extends Vue {
   @Mutation('setSearchValue') public setSearchValue: any;
 
   public showModal: boolean = false;
+  public showEditModal: boolean = false;
+  public showContext: boolean = false;
 
   public notes: NoteViewModel[] = [];
   public title: string = '';
   public selected: string = '';
+
+  public contextNote: NoteViewModel = {
+    title: '',
+    markdown: '',
+    id: '',
+    lastUpdateTime: ''
+  };
 
   public async mounted() {
     this.notes = await this.loadNotes();
@@ -120,11 +143,26 @@ export default class Notes extends Vue {
     });
   }
 
+  public enableEditModal() {
+    this.showModal = true;
+    this.showContext = false;
+  }
+
+  public async editNoteTitle() {
+    const saveNote: AddNoteRequest = {
+      id: this.contextNote.id,
+      markdown: this.contextNote.markdown,
+      title: this.contextNote.title
+    };
+    await noteService.saveNote(saveNote);
+  }
+
   public formatDate(note: NoteViewModel) {
     return moment(note.lastUpdateTime).fromNow();
   }
 
   public async deleteNote(noteId: string) {
+    this.showContext = false;
     await noteService.deleteNote(noteId);
     this.notes = await this.loadNotes();
     this.openFirstNote();
@@ -138,6 +176,16 @@ export default class Notes extends Vue {
       this.notes = await this.searchNotes(value.toLowerCase());
     } else {
       this.notes = await this.loadNotes();
+    }
+  }
+
+  public rightClickedNote(note: NoteViewModel, event: any) {
+    this.showContext = true;
+    this.contextNote = note;
+
+    const contextMenu: any = this.$refs.context;
+    if (contextMenu) {
+      contextMenu.open(event);
     }
   }
 
@@ -172,9 +220,12 @@ export default class Notes extends Vue {
     position: relative;
     display: flex;
     width: 400px;
+    border:0;
+    border-radius:7px;
 
     &::placeholder {
-      font-size: 25px;
+      padding-left: 10px;
+      font-size: 23px;
     }
   }
 
@@ -266,6 +317,10 @@ export default class Notes extends Vue {
         position: absolute;
         display:inline;
         left: 10px;
+
+        &:hover {
+          color: grey;
+        }
       }
     }
 
