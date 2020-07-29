@@ -22,8 +22,12 @@ export default class App extends Vue {}
 <style lang="scss">
 
 
+  * {
+    box-sizing: border-box;
+  }
   html {
     height: 100%;
+
   }
 
   body {

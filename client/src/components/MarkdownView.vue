@@ -1,8 +1,18 @@
 <template>
 
-  <div class="markdown-view">
-    <MarkdownEditor :value="loadedMarkdown" @markdown-updated="markdownUpdated" @save-note="saveNote"></MarkdownEditor>
-    <MarkdownRenderer :value="markdown"></MarkdownRenderer>
+  <div class="note">
+
+    <div v-if="note" contenteditable="true" class="note-title" v-text="note.title"  @keypress.enter.prevent="titleUpdated">
+
+    </div>
+
+
+    <div class="markdown-view">
+      <MarkdownEditor :value="loadedMarkdown" @markdown-updated="markdownUpdated" @save-note="saveNote"></MarkdownEditor>
+      <MarkdownRenderer :value="markdown"></MarkdownRenderer>
+    </div>
+
+
   </div>
 
 </template>
@@ -46,6 +56,13 @@ export default class MarkdownView extends Vue {
     this.updateCurrentNote(this.note);
   }
 
+  public async titleUpdated(event: any) {
+    const title = event.target.innerText;
+    this.note.title = title;
+    this.updateCurrentNote(this.note);
+    this.saveNote();
+  }
+
   public async saveNote() {
     const saveNote: AddNoteRequest = {
       id: this.currentNote.id,
@@ -57,10 +74,7 @@ export default class MarkdownView extends Vue {
 
   private async loadMarkdown() {
     const note = this.noteById(this.noteId);
-
-    if (note) {
-      this.note = note;
-    }
+    this.note = note;
   }
 
 
@@ -73,9 +87,25 @@ export default class MarkdownView extends Vue {
 
   .markdown-view {
     width: 100%;
-    height: 90%;
+    height: 100%;
     display:flex;
     justify-content: left;
+  }
+
+  .note {
+    background:  #fbfbfb;
+    width: 100%;
+    text-align: left;
+  }
+
+  .note-title {
+    font-size: 2.5em;
+    padding: 15px;
+
+    border-left: #d7d7d7 solid 2px;
+    border-top: #d7d7d7 solid 2px;
+    border-right: #d7d7d7 solid 2px;
+
   }
 
 </style>

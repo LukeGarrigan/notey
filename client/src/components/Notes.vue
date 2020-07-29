@@ -8,7 +8,7 @@
         {{notes.length}} {{notes.length == 1 ? 'note' : 'notes'}}
       </div>
 
-      <div class="plus-icon" @click="enableModal()">
+      <div class="plus-icon" @click="addUntitledNote">
         <PlusIcon></PlusIcon>
       </div>
     </div>
@@ -133,6 +133,22 @@ export default class Notes extends Vue {
     });
   }
 
+  public async addUntitledNote() {
+    const addNoteRequest: AddNoteRequest = {
+      id: '',
+      markdown: '',
+      title: 'Untitled'
+    };
+
+    this.title = '';
+    const id = await noteService.saveNote(addNoteRequest);
+    this.notes = await this.loadNotes(); // should be reconsidered
+    await this.$router.push({
+      name: 'note-page',
+      params: {noteId: id}
+    });
+  }
+
   public enableModal() {
     this.showModal = true;
     this.$nextTick(() => {// time for it to be added to the dom
@@ -219,9 +235,10 @@ export default class Notes extends Vue {
   .search-box {
     position: relative;
     display: flex;
-    width: 400px;
+    width: 95%;
     border:0;
     border-radius:7px;
+    margin-top: 2px;
 
     &::placeholder {
       padding-left: 10px;
