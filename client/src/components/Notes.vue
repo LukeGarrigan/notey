@@ -15,6 +15,14 @@
 
     <div class="notes-container" >
       <Article :ref="note.id" v-for="note in notes" :id="note.id" class="note-preview" @click="chooseNote(note)" tabindex="1"  @contextmenu.prevent="rightClickedNote(note, $event)">
+        <div class="tags">
+          <div class="tag">
+            Coding
+          </div>
+
+        </div>
+
+
         <div class="title">
           {{note.title}}
         </div>
@@ -352,6 +360,24 @@ export default class Notes extends Vue {
       color: grey;
     }
 
+  }
+
+
+  .tags {
+    position: absolute;
+    right:10px;
+    top: 10px;
+    display: flex;
+    flex-wrap: wrap;
+
+  }
+  .tag {
+    background: teal;
+    border-radius: 10px;
+    font-size: 12px;
+    color: white;
+    padding: 6px;
+    margin-left: 5px;
   }
 
 
